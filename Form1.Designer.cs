@@ -47,7 +47,7 @@
             this.btnModificar = new System.Windows.Forms.ToolStripButton();
             this.btnMayor = new System.Windows.Forms.ToolStripButton();
             this.btnMenor = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.btnAumentar = new System.Windows.Forms.ToolStripButton();
             this.btnSalir = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlumnos)).BeginInit();
@@ -156,7 +156,7 @@
             this.btnModificar,
             this.btnMayor,
             this.btnMenor,
-            this.toolStripButton7,
+            this.btnAumentar,
             this.btnSalir});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -241,14 +241,15 @@
             this.btnMenor.Text = "Menor Promedio";
             this.btnMenor.Click += new System.EventHandler(this.btnMenor_Click);
             // 
-            // toolStripButton7
+            // btnAumentar
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(29, 68);
-            this.toolStripButton7.Text = "toolStripButton7";
+            this.btnAumentar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAumentar.Image = ((System.Drawing.Image)(resources.GetObject("btnAumentar.Image")));
+            this.btnAumentar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAumentar.Name = "btnAumentar";
+            this.btnAumentar.Size = new System.Drawing.Size(29, 68);
+            this.btnAumentar.Text = "Aumentar Puntos";
+            this.btnAumentar.Click += new System.EventHandler(this.btnAumentar_Click);
             // 
             // btnSalir
             // 
@@ -301,7 +302,7 @@
         private System.Windows.Forms.ToolStripButton btnBuscar;
         private System.Windows.Forms.ToolStripButton btnMayor;
         private System.Windows.Forms.ToolStripButton btnMenor;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton btnAumentar;
         private System.Windows.Forms.ToolStripButton btnSalir;
         private System.Windows.Forms.ToolStripButton btnModificar;
     }

@@ -13,110 +13,67 @@ namespace ArredondoPalomino_GabrielGiovani
         public Operaciones()
         {
             arralumnos = new ArrayList();
+            cargarListaAlumnos();
         }
 
-        public void escribirArchivo(Alumno a)
-        {
-            try
-            {
-                tw = new StreamWriter("alumnos.txt", true);
-                tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido + "," + a.Promedio + "\n");
-                tw.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-        }
-
-        public void escribirArchivo(ArrayList alumnos)
-        {
-            try
-            {
-                tw = new StreamWriter("alumnos.txt", true);
-                foreach (Alumno a in alumnos)
-                {
-                    tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido + "," + a.Promedio + "\n");
-                }
-                tw.Close();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-        }
-
-        public ArrayList leerArchivo(string grupo = "todos")
-        {
-            TextReader tr = new StreamReader("alumnos.txt");
-            try
-            {
-                string[] datos;
-                string cadena = tr.ReadLine();
-
-                while (!string.IsNullOrEmpty(cadena))
-                {
-                    try
-                    {
-                        datos = cadena.Split(',');
-
-                        var al = new Alumno()
-                        {
-                            Codigo = int.Parse(datos[0]),
-                            Nombre = datos[1],
-                            Apellido = datos[2],
-                            Promedio = int.Parse(datos[3])
-                        };
-
-                        arralumnos.Add(al);
-
-                        cadena = tr.ReadLine();
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                tr.Close();
-            }
-
-            return arralumnos;
-        }
-
+        #region BaseDatos
         public Alumno buscar(int codigo)
         {
-            foreach (Alumno x in leerArchivo())
+            foreach (Alumno alumnoBuscar in arralumnos)
             {
-                if (x.Codigo == codigo)
+                if (alumnoBuscar.Codigo == codigo)
                 {
-                    return x;
+                    return alumnoBuscar;
                 }
             }
             return null;
         }
 
-        public void eliminar(Alumno a)
+        public void agregar(Alumno alumno)
         {
-            arralumnos.Remove(a);
-            TextWriter tw = new StreamWriter("alumnos.txt", false);
-            tw.Write(string.Empty);
-            tw.Close();
-            escribirArchivo(arralumnos);
+            arralumnos.Add(alumno);
+            escribirUnAlumnoEnArchivo(alumno);
         }
 
-        public ArrayList obtenerarrcliente()
+        public void modificar(int codigo, Alumno alumno)
+        {
+            Alumno alumnoBuscar = buscar(codigo);
+            
+            if (alumnoBuscar != null)
+            {
+                alumnoBuscar.Nombre = alumno.Nombre;
+                alumnoBuscar.Apellido = alumno.Apellido;
+                alumnoBuscar.Promedio = alumno.Promedio;
+            }
+            escribirListaAlumnosEnArchivo();
+        }
+
+        public void eliminar(Alumno alumno)
+        {
+            arralumnos.Remove(alumno);
+            escribirListaAlumnosEnArchivo();
+        }
+
+        public ArrayList listar()
         {
             return arralumnos;
         }
+
+        public ArrayList listarSuperiores(int notaInferiorMax)
+        {
+            var arrAlumnosSuperiores = new ArrayList();
+
+            foreach (Alumno alumno in arralumnos)
+            {
+                if (alumno.Promedio > notaInferiorMax)
+                {
+                    arrAlumnosSuperiores.Add(alumno);
+                }
+            }
+
+            return arrAlumnosSuperiores;
+        }
+        #endregion
 
         public Alumno mayorPromedio()
         {
@@ -151,5 +108,97 @@ namespace ArredondoPalomino_GabrielGiovani
             }
             return alumnoMinimoPromedio;
         }
+
+        public void incrementarPuntosConMinimo(int puntosAdicionales, int notaMinima)
+        {
+            foreach (Alumno alumno in arralumnos)
+            {
+                if (alumno.Promedio > notaMinima)
+                {
+                    alumno.Promedio += puntosAdicionales;
+                }
+            }
+        }
+
+        #region ManejoArchivos
+        public void cargarListaAlumnos()
+        {
+            TextReader tr = new StreamReader("alumnos.txt");
+            try
+            {
+                string[] datos;
+                string cadena = tr.ReadLine();
+
+                while (!string.IsNullOrEmpty(cadena))
+                {
+                    try
+                    {
+                        datos = cadena.Split(',');
+
+                        int codigo = int.Parse(datos[0]);
+                        string nombre = datos[1];
+                        string apellido = datos[2];
+                        int promedio = int.Parse(datos[3]);
+
+                        var al = new Alumno()
+                        {
+                            Codigo = codigo,
+                            Nombre = nombre,
+                            Apellido = apellido,
+                            Promedio = promedio
+                        };
+
+                        arralumnos.Add(al);
+
+                        cadena = tr.ReadLine();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                tr.Close();
+            }
+        }
+        
+        public void escribirUnAlumnoEnArchivo(Alumno a)
+        {
+            try
+            {
+                tw = new StreamWriter("alumnos.txt", true);
+                tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido + "," + a.Promedio + "\n");
+                tw.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+        }
+
+        public void escribirListaAlumnosEnArchivo()
+        {
+            try
+            {
+                tw = new StreamWriter("alumnos.txt", false);
+                foreach (Alumno a in arralumnos)
+                {
+                    tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido + "," + a.Promedio + "\n");
+                }
+                tw.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        #endregion
     }
 }
