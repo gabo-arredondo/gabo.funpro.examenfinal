@@ -1,4 +1,4 @@
-﻿namespace RosalesLudeña_GudmerEduardo
+﻿namespace ArredondoPalomino_GabrielGiovani
 {
     public class Alumno
     {

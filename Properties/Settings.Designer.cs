@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RosalesLudeña_GudmerEduardo.Properties
+namespace ArredondoPalomino_GabrielGiovani.Properties
 {
 
 

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RosalesLudeña_GudmerEduardo
+namespace ArredondoPalomino_GabrielGiovani
 {
     public partial class Form1 : Form
     {

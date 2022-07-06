@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RosalesLudeña_GudmerEduardo
+namespace ArredondoPalomino_GabrielGiovani
 {
     class Operaciones
     {
