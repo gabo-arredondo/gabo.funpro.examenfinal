@@ -7,6 +7,12 @@ namespace ArredondoPalomino_GabrielGiovani
 {
     public partial class Form1 : Form
     {
+        #region Constantes
+        private const int PUNTOS_ADICIONALES = 2;
+
+        private const int NOTA_MINIMA = 14;
+        #endregion
+
         private Operaciones oper;
 
         public Form1()
@@ -15,8 +21,8 @@ namespace ArredondoPalomino_GabrielGiovani
             oper = new Operaciones();
         }
 
-        #region Metodos
-        int Codigo()
+        #region Getters
+        int GetCodigo()
         {
             try
             {
@@ -30,38 +36,47 @@ namespace ArredondoPalomino_GabrielGiovani
             }
         }
 
-        string Nombre()
+        string GetNombre()
         {
             return txtNombre.Text;
         }
 
-        string Apellido()
+        string GetApellido()
         {
             return txtApellido.Text;
         }
 
-        int Promedio()
+        int GetPromedio()
         {
             return int.Parse(txtPromedio.Text);
         }
 
+        Alumno GetAlumno()
+        {
+            Alumno alumno = new Alumno()
+            {
+                Codigo = GetCodigo(),
+                Nombre = GetNombre(),
+                Apellido = GetApellido(),
+                Promedio = GetPromedio()
+            };
+
+            return alumno;
+        }
+        #endregion
+
+        #region Metodos
         void escribir()
         {
-            Alumno a = new Alumno()
-            {
-                Codigo = Codigo(),
-                Nombre = Nombre(),
-                Apellido = Apellido(),
-                Promedio = Promedio()
-            };
-            oper.escribirArchivo(a);
+            var alumno = GetAlumno();
+            oper.agregar(alumno);
             limpiarFormulario();
         }
 
-        void leer()
+        void cargarGrilla()
         {
             dgvAlumnos.DataSource = null;
-            dgvAlumnos.DataSource = oper.leerArchivo();
+            dgvAlumnos.DataSource = oper.listar();
         }
 
         void limpiarFormulario()
@@ -74,7 +89,7 @@ namespace ArredondoPalomino_GabrielGiovani
 
         void buscar()
         {
-            Alumno x = oper.buscar(Codigo());
+            Alumno x = oper.buscar(GetCodigo());
 
 
             if (x != null)
@@ -95,35 +110,37 @@ namespace ArredondoPalomino_GabrielGiovani
         {
             if (txtCodigo.Text.Length != 0)
             {
-                Alumno x = oper.buscar(Codigo());
-                oper.eliminar(x);
-                leer();
+                Alumno alumnoEliminar = oper.buscar(GetCodigo());
+                oper.eliminar(alumnoEliminar);
+                cargarGrilla();
                 limpiarFormulario();
             }
             else
             {
                 MessageBox.Show("Ingrese codigo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-
         }
 
         void modificar()
         {
-            Alumno x = oper.buscar(Codigo());
-            if (x != null)
+            var codigo = GetCodigo();
+            
+            var alumno = new Alumno()
             {
-                x.Nombre = Nombre();
-                x.Apellido = Apellido();
-                x.Promedio = Promedio();
-                ArrayList arrclientes = oper.obtenerarrcliente();
-                TextWriter tw = new StreamWriter("alumnos.txt", false);
-                tw.Write(string.Empty);
-                tw.Close();
-                oper.escribirArchivo(arrclientes);
-                leer();
-                limpiarFormulario();
-            }
+                Nombre = GetNombre(),
+                Apellido = GetApellido(),
+                Promedio = GetPromedio()
+            };
+
+            oper.modificar(codigo, alumno);
+
+            cargarGrilla();
+            limpiarFormulario();
+        }
+
+        void aumentarDosPuntos()
+        {
+            oper.incrementarPuntosConMinimo(PUNTOS_ADICIONALES, NOTA_MINIMA);
         }
         #endregion
 
@@ -140,7 +157,7 @@ namespace ArredondoPalomino_GabrielGiovani
 
         private void btnListar_Click(object sender, EventArgs e)
         {
-            leer();
+            cargarGrilla();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -168,6 +185,12 @@ namespace ArredondoPalomino_GabrielGiovani
         {
             var alumnoMinimoPromedio = oper.menorPromedio();
             mostrar(alumnoMinimoPromedio);
+        }
+
+        private void btnAumentar_Click(object sender, EventArgs e)
+        {
+            aumentarDosPuntos();
+            cargarGrilla();
         }
         #endregion
     }
