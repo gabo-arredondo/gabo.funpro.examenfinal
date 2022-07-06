@@ -7,12 +7,15 @@ namespace ArredondoPalomino_GabrielGiovani
 {
     public partial class Form1 : Form
     {
-        Operaciones oper = new Operaciones();
+        private Operaciones oper;
 
         public Form1()
         {
             InitializeComponent();
+            oper = new Operaciones();
         }
+
+        #region Metodos
         int Codigo()
         {
             try
@@ -76,13 +79,17 @@ namespace ArredondoPalomino_GabrielGiovani
 
             if (x != null)
             {
-                txtNombre.Text = x.Nombre;
-                txtApellido.Text = x.Apellido;
-                txtPromedio.Text = x.Promedio.ToString();
-
+                mostrar(x);
             }
         }
 
+        void mostrar(Alumno alumno)
+        {
+            txtCodigo.Text = alumno.Codigo.ToString();
+            txtNombre.Text = alumno.Nombre;
+            txtApellido.Text = alumno.Apellido;
+            txtPromedio.Text = alumno.Promedio.ToString();
+        }
 
         void eliminar()
         {
@@ -118,7 +125,9 @@ namespace ArredondoPalomino_GabrielGiovani
                 limpiarFormulario();
             }
         }
+        #endregion
 
+        #region Eventos
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             escribir();
@@ -152,11 +161,14 @@ namespace ArredondoPalomino_GabrielGiovani
         private void btnMayor_Click(object sender, EventArgs e)
         {
             var alumnoMaximoPromedio = oper.mayorPromedio();
+            mostrar(alumnoMaximoPromedio);
         }
 
         private void btnMenor_Click(object sender, EventArgs e)
         {
             var alumnoMinimoPromedio = oper.menorPromedio();
+            mostrar(alumnoMinimoPromedio);
         }
+        #endregion
     }
 }
