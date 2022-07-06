@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArredondoPalomino_GabrielGiovani
 {
@@ -24,7 +20,7 @@ namespace ArredondoPalomino_GabrielGiovani
             try
             {
                 tw = new StreamWriter("alumnos.txt", true);
-                tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido +"," + a.Promedio + "\n");
+                tw.Write(a.Codigo + "," + a.Nombre + "," + a.Apellido + "," + a.Promedio + "\n");
                 tw.Close();
             }
             catch (Exception ex)
@@ -116,7 +112,7 @@ namespace ArredondoPalomino_GabrielGiovani
             tw.Close();
             escribirArchivo(arralumnos);
         }
-        
+
         public ArrayList obtenerarrcliente()
         {
             return arralumnos;
